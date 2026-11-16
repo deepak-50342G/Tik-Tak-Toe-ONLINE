@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tic Tac Toe Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>try{document.documentElement.dataset.mode=localStorage.getItem('ttt-mode')||'light'}catch(e){document.documentElement.dataset.mode='light'}</script>
+</head>
+<body data-theme="pond">
+  <canvas id="stars" aria-hidden="true"></canvas>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="heartClip" clipPathUnits="objectBoundingBox"><path d="M0.5,0.97 C0.1,0.66 0,0.46 0,0.28 C0,0.1 0.12,0 0.27,0 C0.38,0 0.46,0.06 0.5,0.15 C0.54,0.06 0.62,0 0.73,0 C0.88,0 1,0.1 1,0.28 C1,0.46 0.9,0.66 0.5,0.97 Z"/></clipPath></defs></svg>
+  <header>
+    <h1>Tic Tac Toe</h1>
+    <div class="headRight">
+    <button id="modeBtn" class="ghost" aria-label="Switch light and night mode"></button>
+    <div class="me">Your ID <b id="myId">······</b> <button id="copyBtn" class="ghost">Copy</button></div>
+    </div>
+  </header>
+
+  <div id="toast" role="status"></div>
+
+  <main>
+    <!-- LOBBY -->
+    <section id="lobby">
+      <div class="panel">
+        <h2>Opponent</h2>
+        <div id="oppBox"></div>
+      </div>
+      <div class="panel">
+        <h2>Game mode</h2>
+        <div id="modes" class="cards"></div>
+      </div>
+      <div class="panel">
+        <h2>Theme</h2>
+        <div id="themes" class="themes"></div>
+      </div>
+      <div class="startRow">
+        <button id="startBtn" class="primary">Start game</button>
+        <span id="startHint"></span>
+      </div>
+    </section>
+
+    <!-- GAME -->
+    <section id="game" hidden>
+      <div id="status"><span id="statusText"></span><span id="timer"></span></div>
+      <div id="boardWrap"><div id="board"></div></div>
+      <div id="scores">
+        <div><small>You</small><b id="sMe">0</b></div>
+        <div><small>Draws</small><b id="sDraw">0</b></div>
+        <div><small>Opponent</small><b id="sOpp">0</b></div>
+      </div>
+      <div class="gameBtns">
+        <button id="nextBtn" class="primary" hidden>Next round</button>
+        <button id="lobbyBtn" class="ghost">Back to lobby</button>
+        <button id="exitBtn" class="ghost danger">Exit room</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ADD OPPONENT MODAL -->
+  <div id="modal" hidden>
+    <div class="dialog">
+      <h2>Add opponent</h2>
+      <label for="oppInput">Enter their user ID</label>
+      <input id="oppInput" maxlength="6" autocomplete="off" placeholder="e.g. K3F9QZ">
+      <p id="checkResult" class="hint"></p>
+      <div class="dialogBtns">
+        <button id="cancelAdd" class="ghost">Cancel</button>
+        <button id="confirmAdd" class="primary" disabled>Add opponent</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <button id="chatToggle" aria-label="Open chat" disabled>
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.2A8 8 0 1 1 21 12z"/></svg>
+    <span id="badge" hidden>0</span>
+  </button>
+  <aside id="chat" hidden>
+    <div class="chatHead"><span id="chatTitle">Chat</span><button id="chatClose" class="ghost" aria-label="Close chat">✕</button></div>
+    <div id="msgs"></div>
+    <div class="chatInput">
+      <input id="msgInput" placeholder="Type a message" maxlength="500" autocomplete="off">
+      <button id="sendBtn" class="primary">Send</button>
+    </div>
+  </aside>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
